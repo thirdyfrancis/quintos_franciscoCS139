@@ -13,8 +13,29 @@
                     </div>
                     
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="type_id" name="type_id" placeholder="Type ID" value="<?php echo $row['type_id']?>" required>
-                        <label for="floatingInput">Type of ID</label>
+
+                        <?php
+                            $database = new Connection();
+                            $db = $database->open();
+                        ?>
+                        <select class="form-select" id="type_id" name="type_id" aria-label="Floating label select example">
+                            <?php
+                                $sql = "SELECT * FROM type";
+                                $stmt = $db->prepare($sql);
+                                $stmt->execute();
+                                $types = $stmt->fetchAll();
+                            ?>
+
+                            <option selected></option>
+                            <?php foreach($types as $type): ?>
+                                <option value="<?= $type['id']; ?>"><?= $type['name']; ?></option>
+                            <?php endforeach; ?>
+
+                        </select>
+                        <label for="floatingSelect">Type</label>
+                        <?php
+                            $database->close();
+                        ?>
                     </div>
                         
                     <div class="form-floating mb-3">
