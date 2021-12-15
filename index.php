@@ -58,12 +58,15 @@
                                 $sql = 'SELECT * FROM animals ORDER BY name ASC';
                                 $no = 0;
                                 foreach ($db->query($sql) as $row) {
+                                    $sql2 = $db->prepare('SELECT type.name FROM TYPE INNER JOIN animals ON type.id = animals.type_id WHERE type.id='.$row['type_id']);
+                                    $sql2 -> execute();
+                                    $type_name = $sql2->fetch();
                                     $no++;
                         ?>
                                     <tr>
                                         <td><?php echo $no; ?></td>
                                         <td><?php echo $row['name']; ?></td>
-                                        <td><?php echo $row['type_id']; ?></td>
+                                        <td><?php echo $type_name['name']; ?></td>
                                         <td><?php echo $row['color']; ?></td>
                                         <td><?php echo $row['num_legs']; ?></td>
                                         <td><?php echo $row['remarks']; ?></td> 
